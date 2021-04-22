@@ -155,12 +155,6 @@ open class EMPageViewController: UIViewController, UIScrollViewDelegate {
         scrollView.showsVerticalScrollIndicator = false
         return scrollView
     }()
-
-    open var isScrollViewRoot: Bool = false {
-        willSet {
-            assert(!isViewLoaded)
-        }
-    }
     
     /// The view controller before the selected view controller.
     var beforeViewController: UIViewController?
@@ -324,24 +318,14 @@ open class EMPageViewController: UIViewController, UIScrollViewDelegate {
     open override var shouldAutomaticallyForwardAppearanceMethods : Bool {
         return false
     }
-
-    open override func loadView() {
-        scrollView.delegate = self
-        if isScrollViewRoot {
-            view = scrollView
-        } else {
-            super.loadView()
-        }
-    }
     
     open override func viewDidLoad() {
         super.viewDidLoad()
 
-        if !isScrollViewRoot {
-            scrollView.frame = view.bounds
-            scrollView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-            view.addSubview(scrollView)
-        }
+        scrollView.delegate = self
+        scrollView.frame = view.bounds
+        scrollView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        view.addSubview(scrollView)
     }
     
     open override func viewWillLayoutSubviews() {
