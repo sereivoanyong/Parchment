@@ -154,22 +154,31 @@ public struct PagingOptions {
     indicatorOptions = .visible(
         height: 4,
         zIndex: Int.max,
-        spacing: UIEdgeInsets.zero,
+        spacing: .zero,
         insets: UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 8))
   
     borderOptions = .visible(
         height: 1,
-        zIndex: Int.max - 1,
+        zIndex: .max - 1,
         insets: UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 8))
 
     font = .systemFont(ofSize: 15, weight: .medium)
     selectedFont = .systemFont(ofSize: 15, weight: .medium)
 
-    textColor = UIColor.black
-    selectedTextColor = UIColor(red: 3/255, green: 125/255, blue: 233/255, alpha: 1)
-    backgroundColor = .clear
-    selectedBackgroundColor = .clear
-    menuBackgroundColor = .clear
+    if #available(iOS 13.0, *) {
+      textColor = .label
+      selectedTextColor = .secondaryLabel
+      backgroundColor = .clear
+      selectedBackgroundColor = .clear
+      menuBackgroundColor = .systemBackground
+    } else {
+      // Backward compatibility. See https://sarunw.com/posts/dark-color-cheat-sheet/
+      textColor = .black
+      selectedTextColor = UIColor(red: 0.24, green: 0.24, blue: 0.26, alpha: 0.6)
+      backgroundColor = .clear
+      selectedBackgroundColor = .clear
+      menuBackgroundColor = .white
+    }
     borderColor = UIColor(white: 0.9, alpha: 1)
     indicatorColor = UIColor(red: 3/255, green: 125/255, blue: 233/255, alpha: 1)
   }
