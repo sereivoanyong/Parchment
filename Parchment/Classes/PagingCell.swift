@@ -3,7 +3,9 @@ import UIKit
 /// A custom `UICollectionViewCell` subclass used to display the menu
 /// items. When creating your own custom cells, you need to subclass
 /// this type instead of `UICollectionViewCell` directly.
-open class PagingCell: UICollectionViewCell {
+public typealias PagingCell = UICollectionViewCell & PagingCellConvertible
+
+public protocol PagingCellConvertible: AnyObject {
   /// Called by the `PagingViewControllerDataSource` to customize the
   /// cell with an instance conforming to `PagingItem`. You have to
   /// override this method when creating your own subclass – the
@@ -15,7 +17,5 @@ open class PagingCell: UICollectionViewCell {
   /// currently selected.
   /// - Parameter options: The `PagingOptions` used to customize the
   /// look and feel of the `PagingViewController.
-  open func setPagingItem(_ pagingItem: PagingItem, selected: Bool, options: PagingOptions) {
-    fatalError("setPagingItem: not implemented")
-  }
+  func setPagingItem(_ pagingItem: PagingItem, selected: Bool, options: PagingOptions)
 }

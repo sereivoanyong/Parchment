@@ -35,7 +35,7 @@ class IconPagingCell: PagingCell {
     fatalError("init(coder:) has not been implemented")
   }
   
-  override func setPagingItem(_ pagingItem: PagingItem, selected: Bool, options: PagingOptions) {
+  func setPagingItem(_ pagingItem: PagingItem, selected: Bool, options: PagingOptions) {
     if let item = pagingItem as? IconItem {
 
       let viewModel = IconPagingCellViewModel(

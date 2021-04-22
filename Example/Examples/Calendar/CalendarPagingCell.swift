@@ -65,7 +65,7 @@ class CalendarPagingCell: PagingCell {
     }
   }
   
-  override func setPagingItem(_ pagingItem: PagingItem, selected: Bool, options: PagingOptions) {
+  func setPagingItem(_ pagingItem: PagingItem, selected: Bool, options: PagingOptions) {
     self.options = options
     let calendarItem = pagingItem as! CalendarItem
     dateLabel.text = calendarItem.dateText

@@ -42,7 +42,7 @@ open class PagingTitleCell: PagingCell {
     configure()
   }
   
-  open override func setPagingItem(_ pagingItem: PagingItem, selected: Bool, options: PagingOptions) {
+  open func setPagingItem(_ pagingItem: PagingItem, selected: Bool, options: PagingOptions) {
     if let titleItem = pagingItem as? PagingIndexItem {
       viewModel = PagingTitleCellViewModel(
         title: titleItem.title,
