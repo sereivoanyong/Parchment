@@ -89,18 +89,22 @@ open class PagingCollectionViewLayout: UICollectionViewLayout, PagingLayout {
   }
   
   private var adjustedMenuInsets: UIEdgeInsets {
-    return UIEdgeInsets(
-      top: options.menuInsets.top,
-      left: options.menuInsets.left + safeAreaInsets.left,
-      bottom: options.menuInsets.bottom,
-      right: options.menuInsets.right + safeAreaInsets.right)
+    var adjustedMenuInsets = options.menuInsets
+    let additional = additionalMenuInsets
+    adjustedMenuInsets.left += additional.left
+    adjustedMenuInsets.right = additional.right
+    return adjustedMenuInsets
   }
   
-  private var safeAreaInsets: UIEdgeInsets {
-    if options.includeSafeAreaInsets, #available(iOS 11.0, *) {
+  private var additionalMenuInsets: UIEdgeInsets {
+    switch options.menuInsetReference {
+    case .fromContentInset:
+      return view.contentInset
+    case .fromSafeArea:
+      guard #available(iOS 11.0, *) else { fatalError() }
       return view.safeAreaInsets
-    } else {
-      return .zero
+    case .fromLayoutMargins:
+      return view.layoutMargins
     }
   }
   
@@ -390,7 +394,7 @@ open class PagingCollectionViewLayout: UICollectionViewLayout, PagingLayout {
     borderLayoutAttributes?.update(
       contentSize: collectionViewContentSize,
       bounds: collectionView?.bounds ?? .zero,
-      safeAreaInsets: safeAreaInsets)
+      additionalMenuInsets: additionalMenuInsets)
   }
   
   private func updateIndicatorLayoutAttributes() {

@@ -113,13 +113,6 @@ open class PagingMenuView: UIView {
     set { options.borderColor = newValue }
   }
   
-  /// Updates the content inset for the menu items based on the
-  /// .safeAreaInsets property. _Default: true_
-  public var includeSafeAreaInsets: Bool {
-    get { return options.includeSafeAreaInsets }
-    set { options.includeSafeAreaInsets = newValue }
-  }
-  
   /// The font used for title label on the menu items.
   public var font: UIFont {
      get { return options.font }

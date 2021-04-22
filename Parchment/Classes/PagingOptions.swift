@@ -1,5 +1,18 @@
 import UIKit
 
+extension PagingOptions {
+
+  public enum MenuInsetReference : Int {
+
+    case fromContentInset
+
+    @available(iOS 11.0, *)
+    case fromSafeArea
+
+    case fromLayoutMargins
+  }
+}
+
 public struct PagingOptions {
   
   /// The size for each of the menu items. _Default:
@@ -15,6 +28,8 @@ public struct PagingOptions {
   /// Determine the insets at around all the menu items. _Default:
   /// UIEdgeInsets.zero_
   public var menuInsets: UIEdgeInsets
+
+  public var menuInsetReference: MenuInsetReference
   
   /// Determine whether the menu items should be centered when all the
   /// items can fit within the bounds of the view. _Default: .left_
@@ -69,10 +84,6 @@ public struct PagingOptions {
   
   /// Determine the color of the border view.
   public var borderColor: UIColor
-  
-  /// Updates the content inset for the menu items based on the
-  /// .safeAreaInsets property. _Default: true_
-  public var includeSafeAreaInsets: Bool
   
   /// The font used for title label on the menu items.
   public var font: UIFont
@@ -140,11 +151,15 @@ public struct PagingOptions {
     menuPosition = .top
     menuTransition = .scrollAlongside
     menuInteraction = .scrolling
-    menuInsets = UIEdgeInsets.zero
+    menuInsets = .zero
+    if #available(iOS 11.0, *) {
+      menuInsetReference = .fromSafeArea
+    } else {
+      menuInsetReference = .fromContentInset
+    }
     menuItemSpacing = 0
     menuItemLabelSpacing = 20
     menuHorizontalAlignment = .left
-    includeSafeAreaInsets = true
     indicatorClass = PagingIndicatorView.self
     borderClass = PagingBorderView.self
     menuLayoutClass = PagingCollectionViewLayout.self

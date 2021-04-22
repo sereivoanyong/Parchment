@@ -40,10 +40,10 @@ open class PagingBorderLayoutAttributes: UICollectionViewLayoutAttributes {
     }
   }
   
-  func update(contentSize: CGSize, bounds: CGRect, safeAreaInsets: UIEdgeInsets) {
+  func update(contentSize: CGSize, bounds: CGRect, additionalMenuInsets: UIEdgeInsets) {
     let width = max(bounds.width, contentSize.width)
-    frame.size.width = width - insets.horizontal - safeAreaInsets.horizontal
-    frame.origin.x = insets.left + safeAreaInsets.left
+    frame.size.width = width - insets.horizontal - additionalMenuInsets.horizontal
+    frame.origin.x = insets.left + additionalMenuInsets.left
   }
   
 }

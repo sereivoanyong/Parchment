@@ -44,6 +44,11 @@ open class PagingViewController:
     get { return options.menuInsets }
     set { options.menuInsets = newValue }
   }
+
+  public var menuInsetReference: PagingOptions.MenuInsetReference {
+    get { return options.menuInsetReference }
+    set { options.menuInsetReference = newValue }
+  }
   
   /// Determine whether the menu items should be centered when all the
   /// items can fit within the bounds of the view. _Default: .left_
@@ -133,13 +138,6 @@ open class PagingViewController:
   public var borderColor: UIColor {
     get { return options.borderColor }
     set { options.borderColor = newValue }
-  }
-  
-  /// Updates the content inset for the menu items based on the
-  /// .safeAreaInsets property. _Default: true_
-  public var includeSafeAreaInsets: Bool {
-    get { return options.includeSafeAreaInsets }
-    set { options.includeSafeAreaInsets = newValue }
   }
   
   /// The font used for title label on the menu items.
