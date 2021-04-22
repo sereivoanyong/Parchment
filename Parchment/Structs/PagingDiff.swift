@@ -69,21 +69,12 @@ struct PagingDiff {
   }
   
   private func diff(visibleItems: PagingItems, cache: [Int: PagingItem]) -> [IndexPath] {
-    #if swift(>=4.1)
-      return visibleItems.items.compactMap { item in
-        if cache[item.identifier] == nil {
-          return visibleItems.indexPath(for: item)
-        }
-        return nil
+    return visibleItems.items.compactMap { item in
+      if cache[item.identifier] == nil {
+        return visibleItems.indexPath(for: item)
       }
-    #else
-      return visibleItems.items.flatMap { item in
-        if cache[item.hashValue] == nil {
-          return visibleItems.indexPath(for: item)
-        }
-        return nil
-      }
-    #endif
+      return nil
+    }
   }
   
 }

@@ -66,21 +66,15 @@ open class PagingView: UIView {
       "collectionView": collectionView,
       "pageView": pageView]
     
-    #if swift(>=4.2)
-    let formatOptions = NSLayoutConstraint.FormatOptions()
-    #else
-    let formatOptions = NSLayoutFormatOptions()
-    #endif
-    
     let horizontalCollectionViewContraints = NSLayoutConstraint.constraints(
       withVisualFormat: "H:|[collectionView]|",
-      options: formatOptions,
+      options: [],
       metrics: metrics,
       views: views)
     
     let horizontalPagingContentViewContraints = NSLayoutConstraint.constraints(
       withVisualFormat: "H:|[pageView]|",
-      options: formatOptions,
+      options: [],
       metrics: metrics,
       views: views)
     
@@ -94,7 +88,7 @@ open class PagingView: UIView {
 
     let verticalContraints = NSLayoutConstraint.constraints(
       withVisualFormat: verticalConstraintsFormat,
-      options: formatOptions,
+      options: [],
       metrics: metrics,
       views: views)
     

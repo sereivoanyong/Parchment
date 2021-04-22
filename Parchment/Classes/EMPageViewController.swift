@@ -490,26 +490,16 @@ open class EMPageViewController: UIViewController, UIScrollViewDelegate {
     
     private func addChildIfNeeded(_ viewController: UIViewController) {
         self.scrollView.addSubview(viewController.view)
-      
-        #if swift(>=4.2)
-        self.addChild(viewController)
+
+        addChild(viewController)
         viewController.didMove(toParent: self)
-        #else
-        self.addChildViewController(viewController)
-        viewController.didMove(toParentViewController: self)
-        #endif
     }
     
     private func removeChildIfNeeded(_ viewController: UIViewController?) {
         viewController?.view.removeFromSuperview()
-      
-        #if swift(>=4.2)
+
         viewController?.didMove(toParent: nil)
         viewController?.removeFromParent()
-        #else
-        viewController?.didMove(toParentViewController: nil)
-        viewController?.removeFromParentViewController()
-        #endif
     }
     
     private func layoutViews() {

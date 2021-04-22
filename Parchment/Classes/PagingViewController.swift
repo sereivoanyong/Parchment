@@ -469,17 +469,11 @@ open class PagingViewController:
   
   open override func viewDidLoad() {
     super.viewDidLoad()
-    
-    #if swift(>=4.2)
+
     addChild(pageViewController)
     pagingView.configure()
     pageViewController.didMove(toParent: self)
-    #else
-    addChildViewController(pageViewController)
-    pagingView.configure()
-    pageViewController.didMove(toParentViewController: self)
-    #endif
-    
+
     pageViewController.dataSource = self
     configureContentInteraction()
   }
