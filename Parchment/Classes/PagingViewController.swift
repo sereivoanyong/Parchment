@@ -310,6 +310,9 @@ open class PagingViewController:
     self.collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout)
     super.init(nibName: nil, bundle: nil)
     pageViewController.isScrollViewRoot = true
+    collectionView.showsHorizontalScrollIndicator = false
+    collectionView.showsVerticalScrollIndicator = false
+    collectionView.preservesSuperviewLayoutMargins = true
     collectionView.delegate = self
     collectionViewLayout.options = options
     configurePagingController()
