@@ -142,18 +142,25 @@ open class EMPageViewController: UIViewController, UIScrollViewDelegate {
     /// The underlying `UIScrollView` responsible for scrolling page views.
     /// - important: Properties should be set with caution to prevent unexpected behavior.
     open private(set) lazy var scrollView: UIScrollView = {
-        let scrollView = UIScrollView()
+        let scrollView = UIScrollView(frame: UIScreen.main.bounds)
+        if #available(iOS 11.0, *) {
+            scrollView.contentInsetAdjustmentBehavior = .never
+        }
         scrollView.isPagingEnabled = true
         scrollView.scrollsToTop = false
-        scrollView.autoresizingMask = [.flexibleTopMargin, .flexibleRightMargin, .flexibleBottomMargin, .flexibleLeftMargin]
         scrollView.bounces = true
         scrollView.alwaysBounceHorizontal = self.isOrientationHorizontal
         scrollView.alwaysBounceVertical = !self.isOrientationHorizontal
-        scrollView.translatesAutoresizingMaskIntoConstraints = true
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.showsVerticalScrollIndicator = false
         return scrollView
     }()
+
+    open var isScrollViewRoot: Bool = false {
+        willSet {
+            assert(!isViewLoaded)
+        }
+    }
     
     /// The view controller before the selected view controller.
     var beforeViewController: UIViewController?
@@ -279,17 +286,6 @@ open class EMPageViewController: UIViewController, UIScrollViewDelegate {
         }
     }
     
-    
-    @nonobjc @available(*, unavailable, renamed: "scrollForward(animated:completion:)")
-    open func scrollForwardAnimated(_ animated: Bool, completion: ((_ transitionSuccessful: Bool) -> Void)?) {
-        self.scrollForward(animated: animated, completion: completion)
-    }
-    
-    @nonobjc @available(*, unavailable, renamed: "scrollReverse(animated:completion:)")
-    open func scrollReverseAnimated(_ animated: Bool, completion: ((_ transitionSuccessful: Bool) -> Void)?) {
-        self.scrollReverse(animated: animated, completion: completion)
-    }
-    
     // MARK: - View Controller Overrides
     
     open override func viewWillAppear(_ animated: Bool) {
@@ -328,12 +324,24 @@ open class EMPageViewController: UIViewController, UIScrollViewDelegate {
     open override var shouldAutomaticallyForwardAppearanceMethods : Bool {
         return false
     }
+
+    open override func loadView() {
+        scrollView.delegate = self
+        if isScrollViewRoot {
+            view = scrollView
+        } else {
+            super.loadView()
+        }
+    }
     
     open override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.scrollView.delegate = self
-        self.view.addSubview(self.scrollView)
+
+        if !isScrollViewRoot {
+            scrollView.frame = view.bounds
+            scrollView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+            view.addSubview(scrollView)
+        }
     }
     
     open override func viewWillLayoutSubviews() {
@@ -341,7 +349,6 @@ open class EMPageViewController: UIViewController, UIScrollViewDelegate {
         
         adjustingContentOffset = true
                 
-        self.scrollView.frame = self.view.bounds
         if self.isOrientationHorizontal {
             self.scrollView.contentSize = CGSize(width: self.view.bounds.width * 3, height: self.view.bounds.height)
         } else {

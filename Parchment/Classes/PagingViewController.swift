@@ -309,6 +309,7 @@ open class PagingViewController:
     self.collectionViewLayout = createLayout(layout: options.menuLayoutClass.self)
     self.collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout)
     super.init(nibName: nil, bundle: nil)
+    pageViewController.isScrollViewRoot = true
     collectionView.delegate = self
     collectionViewLayout.options = options
     configurePagingController()
@@ -481,10 +482,6 @@ open class PagingViewController:
     
     pageViewController.dataSource = self
     configureContentInteraction()
-
-    if #available(iOS 11.0, *) {
-      pageViewController.scrollView.contentInsetAdjustmentBehavior = .never
-    }
   }
   
   open override func viewDidLayoutSubviews() {
