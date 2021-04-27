@@ -650,4 +650,25 @@ open class EMPageViewController: UIViewController, UIScrollViewDelegate {
         }
         
     }
+
+    open func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
+        // Scroll view (with isPagingEnabled) somehow gets interrupted and does not stop exactly at the page's edge
+        // It causes `progress` to never reach 0 or 1 nor nil out `navigationDirection`
+        guard let navigationDirection = navigationDirection else {
+            return
+        }
+        let targetContentOffset: CGPoint
+        switch navigationDirection {
+        case .forward:
+            switch navigationOrientation {
+            case .horizontal:
+                targetContentOffset = CGPoint(x: view.bounds.width * 2, y: 0)
+            case .vertical:
+                targetContentOffset = CGPoint(x: 0, y: view.bounds.height * 2)
+            }
+        case .reverse:
+            targetContentOffset = .zero
+        }
+        scrollView.contentOffset = targetContentOffset
+    }
 }
